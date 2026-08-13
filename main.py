@@ -116,9 +116,14 @@ elif loaded:
 else:
     state.add_log("New game started.")
 
-ui.build_ui()
-ui.update_ui()
-ui.set_save_status("Ready")
+try:
+    ui.build_ui()
+    ui.update_ui()
+    ui.set_save_status("Ready")
+except Exception as error:
+    web.page["save-status"].textContent = "ERROR"
+    print("STARTUP ERROR:", repr(error))
+    raise
 
 
 # ====================================================================
@@ -134,27 +139,30 @@ async def game_loop():
     autosave_timer = 0.0
 
     while True:
-        # The game logic uses the REAL elapsed time below, so this sleep does
-        # not define production speed. It simply avoids a wasteful busy loop.
-        await asyncio.sleep(0.1)
+        try:
+            # Production uses real elapsed time; sleeping avoids a busy loop.
+            await asyncio.sleep(0.1)
 
-        current_time = time.time()
-        delta = max(0.0, current_time - previous_time)
-        previous_time = current_time
+            current_time = time.time()
+            delta = max(0.0, current_time - previous_time)
+            previous_time = current_time
 
-        logic.advance_game(delta)
+            logic.advance_game(delta)
 
-        ui_timer += delta
-        autosave_timer += delta
+            ui_timer += delta
+            autosave_timer += delta
 
-        if ui_timer >= UI_REFRESH_SECONDS:
-            ui.update_ui()
-            ui_timer = 0.0
+            if ui_timer >= UI_REFRESH_SECONDS:
+                ui.update_ui()
+                ui_timer = 0.0
 
-        if autosave_timer >= AUTOSAVE_SECONDS:
-            save.save_game()
-            ui.set_save_status("Autosaved")
-            autosave_timer = 0.0
+            if autosave_timer >= AUTOSAVE_SECONDS:
+                save.save_game()
+                ui.set_save_status("Autosaved")
+                autosave_timer = 0.0
+        except Exception as error:
+            print("GAME LOOP ERROR:", repr(error))
+            raise
 
 
 asyncio.create_task(game_loop())

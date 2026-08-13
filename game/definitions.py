@@ -25,7 +25,7 @@ SAVE_SCHEMA_VERSION = 1
 
 SAVE_KEY = "idle_framework_save_v1"
 AUTOSAVE_SECONDS = 30.0
-UI_REFRESH_SECONDS = 0.1
+UI_REFRESH_SECONDS = 0.2
 
 # Offline production is intentionally capped so leaving for months does
 # not instantly fill every future system. Change or remove the cap later.
@@ -172,15 +172,15 @@ UPGRADE_DEFS = {
             }
         ],
     },
-    "steel axe": {
+    "steel_axe": {
         "name": "Steel Axe",
-        "description": "Doubles wood gain",
+        "description": "Lumber Yards produce twice as much Wood.",
         "cost_resource": "parts",
         "cost": 50.0,
         "effects": [
             {
-                "type": "wood_gain_multiplier",
-                "resources": ["wood"],
+                "type": "building_production_multiplier",
+                "building": "lumberyard",
                 "multiplier": 2.0,
             }
         ],
@@ -199,5 +199,4 @@ TAB_DEFS = [
     {"key": "buildings", "label": "Buildings"},
     {"key": "upgrades", "label": "Upgrades"},
     {"key": "stats", "label": "Stats"},
-    {"key": "research", "label": "Research"},
 ]

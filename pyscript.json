@@ -1,6 +1,5 @@
 {
     "files": {
-        "./game/__init__.py": "./game/__init__.py",
         "./game/definitions.py": "./game/definitions.py",
         "./game/state.py": "./game/state.py",
         "./game/logic.py": "./game/logic.py",
