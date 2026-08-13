@@ -1,202 +1,33 @@
-"""Game definitions and configuration.
+"""Engine configuration and balance constants.
 
-Most normal content additions should start in this file.
-
-The important idea is to separate:
-
-    definitions = what things ARE
-    state       = what the player OWNS / HAS
-
-For example, the Generator's cost belongs here, while the number of
-Generators the player owns belongs in state.py.
+Add resources, upgrades, research, tabs, jobs, and assembly parts in
+``content.py``. This file only contains shared tuning values.
 """
 
+GAME_VERSION = "0.2.0"
+SAVE_SCHEMA_VERSION = 2
+SAVE_KEY = "the_first_rite_save_v1"
 
-# ====================================================================
-# PROJECT / SAVE CONFIGURATION
-# ====================================================================
-
-# Change this whenever you want the displayed game version to change.
-GAME_VERSION = "0.0.1"
-
-# Change this only when the save-file STRUCTURE becomes incompatible.
-# Normal balance/content changes do not require changing it.
-SAVE_SCHEMA_VERSION = 1
-
-SAVE_KEY = "idle_framework_save_v1"
-AUTOSAVE_SECONDS = 30.0
-UI_REFRESH_SECONDS = 0.016
-
-# Offline production is intentionally capped so leaving for months does
-# not instantly fill every future system. Change or remove the cap later.
+AUTOSAVE_SECONDS = 10.0
+UI_REFRESH_SECONDS = 1 / 30
 OFFLINE_PROGRESS_MAX_SECONDS = 8 * 60 * 60
 
-# These become the bulk-buy buttons in the Buildings tab.
-BUY_AMOUNTS = ("1","10", "max")
+# Opening loop. The first skeleton now takes several minutes instead of a few
+# seconds, while early upgrades noticeably shorten later cycles.
+BASE_CHANNEL_MANA_PER_SECOND = 2.0
+BASE_GRAVE_PROGRESS_REQUIRED = 15.0
+BASE_DIG_PROGRESS_PER_CLICK = 1.0
+BASE_BONES_PER_GRAVE = 4.0
+KNOWLEDGE_PER_GRAVE = 0.4
 
+GRAVEYARD_UNLOCK_MANA = 8.0
+SOUL_TRAP_COST = {"mana": 20.0, "bones": 4.0}
+BASE_ASSEMBLY_COST = {"bones": 14.0}
+SUMMON_COST = {"mana": 35.0, "souls": 1.0}
 
-# ====================================================================
-# MANUAL ACTION
-# ====================================================================
-
-# A simple starter action. Replace it when the real game has its own
-# opening mechanic, or remove the button entirely later.
-MANUAL_ACTION = {
-    "label": "Gain Credit",
-    "resource": "credits",
-    "amount": 1.0,
-}
-
-
-# ====================================================================
-# RESOURCES
-# ====================================================================
-
-# Add a resource here and the framework automatically:
-# - creates its player state
-# - creates its left-side UI row
-# - tracks total generated in stats
-#
-# Building production and upgrade effects can then refer to its key.
-RESOURCE_DEFS = {
-    "credits": {
-        "name": "Credits",
-        "description": "Example primary resource.",
-        "base_capacity": 100.0,
-    },
-    "parts": {
-        "name": "Parts",
-        "description": "Example secondary resource.",
-        "base_capacity": 100.0,
-    },
-    "knowledge": {
-        "name": "Knowledge",
-        "description": "Example progression resource.",
-        "base_capacity": 50.0,
-    },
-    "wood": {
-        "name": "Wood",
-        "description": "chop trees",
-        "base_capacity": 100.0,
-    },
-}
-
-
-# ====================================================================
-# BUILDINGS
-# ====================================================================
-
-# A building can produce one or several resources.
-# Cost grows every time another copy is bought.
-BUILDING_DEFS = {
-    "generator": {
-        "name": "Generator",
-        "description": "Basic automatic production.",
-        "cost_resource": "credits",
-        "base_cost": 10.0,
-        "cost_growth": 1.15,
-        "produces": {
-            "credits": 1.0,
-        },
-    },
-    "collector": {
-        "name": "Collector",
-        "description": "Introduces a second production chain.",
-        "cost_resource": "credits",
-        "base_cost": 25.0,
-        "cost_growth": 1.15,
-        "produces": {
-            "parts": 0.5,
-        },
-    },
-    "laboratory": {
-        "name": "Laboratory",
-        "description": "Produces a resource used for upgrades.",
-        "cost_resource": "parts",
-        "base_cost": 30.0,
-        "cost_growth": 1.18,
-        "produces": {
-            "knowledge": 0.1,
-        },
-    },
-    "lumberyard": {
-        "name": "Lumber Yard",
-        "description": "Produces wood",
-        "cost_resource": "parts",
-        "base_cost": 20.0,
-        "cost_growth": 1.12,
-        "produces": {
-            "wood": 0.2,
-        },
-    },
-}
-
-
-# ====================================================================
-# UPGRADES
-# ====================================================================
-
-# Upgrades are one-time purchases.
-#
-# The framework currently understands these effect types:
-#
-#   building_production_multiplier
-#   resource_capacity_multiplier
-#
-# To invent a NEW kind of upgrade effect, add a new effect type here,
-# then teach logic.py how that effect should change the game.
-UPGRADE_DEFS = {
-    "efficient_generators": {
-        "name": "Efficient Generators",
-        "description": "Generators produce twice as much.",
-        "cost_resource": "knowledge",
-        "cost": 10.0,
-        "effects": [
-            {
-                "type": "building_production_multiplier",
-                "building": "generator",
-                "multiplier": 2.0,
-            }
-        ],
-    },
-    "expanded_storage": {
-        "name": "Expanded Storage",
-        "description": "Doubles Credits and Parts capacity.",
-        "cost_resource": "parts",
-        "cost": 50.0,
-        "effects": [
-            {
-                "type": "resource_capacity_multiplier",
-                "resources": ["credits", "parts"],
-                "multiplier": 2.0,
-            }
-        ],
-    },
-    "steel_axe": {
-        "name": "Steel Axe",
-        "description": "Lumber Yards produce twice as much Wood.",
-        "cost_resource": "parts",
-        "cost": 50.0,
-        "effects": [
-            {
-                "type": "building_production_multiplier",
-                "building": "lumberyard",
-                "multiplier": 2.0,
-            }
-        ],
-    },
-}
-
-
-# ====================================================================
-# TABS
-# ====================================================================
-
-# The UI module knows how to render these built-in tab keys.
-# Reorder this list to reorder the tabs.
-TAB_DEFS = [
-    {"key": "overview", "label": "Overview"},
-    {"key": "buildings", "label": "Buildings"},
-    {"key": "upgrades", "label": "Upgrades"},
-    {"key": "stats", "label": "Stats"},
-]
+BASE_SKELETON_LIMIT = 1
+BASE_SKELETON_DURATION_SECONDS = 150.0
+BASE_SKELETON_MANA_PER_SECOND = 0.65
+BASE_SKELETON_DIG_PROGRESS_PER_SECOND = 0.15
+BASE_SKELETON_RETURNED_BONES = 8.0
+KNOWLEDGE_PER_EXPIRED_SKELETON = 2.5

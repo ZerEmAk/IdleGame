@@ -1,14 +1,4 @@
-"""Application entry point.
-
-main.py wires the modules together:
-
-    load state
-    -> build UI
-    -> attach static events
-    -> run the timed game loop
-
-Most game content should NOT be added here.
-"""
+"""Application entry point for The First Rite."""
 
 import asyncio
 import time
@@ -30,12 +20,29 @@ from game.definitions import AUTOSAVE_SECONDS, UI_REFRESH_SECONDS
 
 @when("click", "#settings-button")
 def open_settings(event):
+    logic.set_channeling(False)
     web.page["settings-dialog"].showModal()
+
+
+@when("click", "#patch-notes-button")
+def open_patch_notes(event):
+    logic.set_channeling(False)
+    web.page["patch-notes-dialog"].showModal()
 
 
 @when("click", "#close-settings")
 def close_settings(event):
     web.page["settings-dialog"].close()
+
+
+@when("click", "#close-patch-notes")
+def close_patch_notes(event):
+    web.page["patch-notes-dialog"].close()
+
+
+@when("click", "#open-skeletons-tab")
+def open_skeletons_tab(event):
+    ui.switch_tab("skeletons")
 
 
 @when("click", "#save-game")
@@ -65,6 +72,7 @@ def manual_load(event):
 
     state.add_log("Save loaded.")
     ui.set_save_status("Loaded")
+    ui.render_skeleton_lists(force=True)
     ui.update_ui()
     ui.render_log()
 
@@ -83,6 +91,7 @@ def reset_game(event):
     state.add_log("New game started.")
 
     ui.set_save_status("Not saved yet")
+    ui.render_skeleton_lists(force=True)
     ui.update_ui()
     ui.render_log()
     web.page["settings-dialog"].close()
@@ -134,8 +143,9 @@ except Exception as error:
 async def game_loop():
     """Continuously advance production, refresh the UI, and autosave."""
 
-    previous_time = time.time()
+    previous_time = time.perf_counter()
     ui_timer = 0.0
+    slow_ui_timer = 0.0
     autosave_timer = 0.0
 
     while True:
@@ -146,18 +156,26 @@ async def game_loop():
             # counters and bars to ten visible updates per second.
             await asyncio.sleep(min(0.05, UI_REFRESH_SECONDS))
 
-            current_time = time.time()
+            current_time = time.perf_counter()
             delta = max(0.0, current_time - previous_time)
             previous_time = current_time
+
+            if bool(window.document.hidden):
+                logic.set_channeling(False)
 
             logic.advance_game(delta)
 
             ui_timer += delta
+            slow_ui_timer += delta
             autosave_timer += delta
 
             if ui_timer >= UI_REFRESH_SECONDS:
-                ui.update_ui()
+                ui.update_fast_ui()
                 ui_timer = 0.0
+
+            if slow_ui_timer >= 0.25:
+                ui.update_ui()
+                slow_ui_timer = 0.0
 
             if autosave_timer >= AUTOSAVE_SECONDS:
                 save.save_game()

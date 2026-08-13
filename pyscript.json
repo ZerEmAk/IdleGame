@@ -1,6 +1,7 @@
 {
     "files": {
-        "./game/definitions.py": "./game/definitions.py",
+    "./game/definitions.py": "./game/definitions.py",
+    "./game/content.py": "./game/content.py",
         "./game/state.py": "./game/state.py",
         "./game/logic.py": "./game/logic.py",
         "./game/save.py": "./game/save.py",
