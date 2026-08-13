@@ -1,0 +1,10 @@
+{
+    "files": {
+        "./game/__init__.py": "./game/__init__.py",
+        "./game/definitions.py": "./game/definitions.py",
+        "./game/state.py": "./game/state.py",
+        "./game/logic.py": "./game/logic.py",
+        "./game/save.py": "./game/save.py",
+        "./game/ui.py": "./game/ui.py"
+    }
+}

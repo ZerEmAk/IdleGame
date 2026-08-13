@@ -1,8 +1,7 @@
-/*v0.0.1*/
-
-/* ================================================================
-   BASIC PAGE
-   ================================================================ */
+/* ==================================================================
+   RESET / BASE
+   Keep the first version visually plain. Layout and readability first.
+   ================================================================== */
 
 * {
     box-sizing: border-box;
@@ -30,51 +29,49 @@ button:disabled {
     opacity: 0.5;
 }
 
+h2,
+h3,
+p {
+    margin-top: 0;
+}
 
-/* ================================================================
+
+/* ==================================================================
    TOP BAR
-   ================================================================ */
+   ================================================================== */
 
 .top-bar {
-    height: 50px;
-
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    padding: 0 12px;
-
+    gap: 12px;
+    padding: 8px 12px;
     background: white;
     border-bottom: 1px solid #bbbbbb;
 }
 
+.top-bar-left,
 .top-bar-right {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 #save-status {
-    margin-left: 12px;
     font-size: 0.8rem;
     color: #666666;
 }
 
 
-/* ================================================================
-   MAIN THREE-COLUMN LAYOUT
-   ================================================================ */
+/* ==================================================================
+   MAIN PAGE LAYOUT
+   ================================================================== */
 
 .game-layout {
     height: calc(100vh - 50px);
-
     display: grid;
-
-    grid-template-columns:
-        260px
-        minmax(400px, 1fr)
-        300px;
-
+    grid-template-columns: 260px minmax(420px, 1fr) 300px;
     gap: 8px;
     padding: 8px;
 }
@@ -82,7 +79,6 @@ button:disabled {
 .panel {
     background: white;
     border: 1px solid #bbbbbb;
-
     overflow-y: auto;
 }
 
@@ -90,9 +86,8 @@ button:disabled {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
+    gap: 8px;
     padding: 10px;
-
     border-bottom: 1px solid #cccccc;
 }
 
@@ -102,97 +97,68 @@ button:disabled {
 }
 
 
-/* ================================================================
+/* ==================================================================
    RESOURCES
-   ================================================================ */
-
-.resources-panel {
-    padding-bottom: 10px;
-}
+   The fill bar is absolutely positioned behind the resource text.
+   Python only changes its width.
+   ================================================================== */
 
 .resource-row {
     position: relative;
-
     margin: 10px;
-    min-height: 58px;
-
+    min-height: 62px;
     border: 1px solid #aaaaaa;
-
     overflow: hidden;
 }
 
-
-/*
-    This sits BEHIND the resource text.
-
-    Python changes its width from 0% to 100%.
-*/
-
 .resource-fill {
     position: absolute;
-
-    left: 0;
-    top: 0;
-    bottom: 0;
-
+    inset: 0 auto 0 0;
     width: 0%;
-
     background: #dddddd;
 }
-
-
-/*
-    z-index keeps the text above the fill bar.
-*/
 
 .resource-content {
     position: relative;
     z-index: 1;
-
     display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 12px;
+    padding: 9px;
+}
 
-    grid-template-columns:
-        1fr
-        auto;
-
-    gap: 4px;
-
-    padding: 8px;
+.resource-name {
+    font-weight: bold;
 }
 
 .resource-rate {
-    grid-column: 2;
-
-    font-size: 0.85rem;
+    text-align: right;
     color: #555555;
+    font-size: 0.85rem;
+}
+
+.resource-description {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: #666666;
+    font-size: 0.8rem;
 }
 
 
-/* ================================================================
-   MAIN PANEL
-   ================================================================ */
-
-.main-panel {
-    padding-bottom: 20px;
-}
-
-
-/* ================================================================
+/* ==================================================================
    TABS
-   ================================================================ */
+   ================================================================== */
 
 .tabs {
     display: flex;
+    flex-wrap: wrap;
     gap: 4px;
-
     padding: 8px;
-
     border-bottom: 1px solid #bbbbbb;
 }
 
 .tab-button {
     padding: 7px 12px;
-
     border: 1px solid #aaaaaa;
     background: #eeeeee;
 }
@@ -204,7 +170,6 @@ button:disabled {
 
 .tab-panel {
     display: none;
-
     padding: 15px;
 }
 
@@ -213,39 +178,36 @@ button:disabled {
 }
 
 
-/* ================================================================
-   GENERIC CONTENT BOX
-   ================================================================ */
+/* ==================================================================
+   GENERIC CONTENT
+   ================================================================== */
 
 .section-box {
     margin: 15px 0;
     padding: 12px;
-
     border: 1px solid #cccccc;
 }
 
-.section-box h3 {
-    margin-top: 0;
+.section-box:last-child {
+    margin-bottom: 0;
 }
 
 
-/* ================================================================
+/* ==================================================================
    BUILDINGS / UPGRADES
-   ================================================================ */
+   ================================================================== */
 
 .buy-selector {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 5px;
-
     margin-bottom: 15px;
 }
 
 .buy-amount {
-    min-width: 45px;
-
-    padding: 5px;
-
+    min-width: 46px;
+    padding: 5px 8px;
     background: #eeeeee;
     border: 1px solid #aaaaaa;
 }
@@ -256,59 +218,57 @@ button:disabled {
     border: 2px solid #555555;
 }
 
-
-/*
-    A building and an upgrade both use .shop-item.
-
-    That means you can later make them look different without
-    changing the structure of the game.
-*/
+.shop-list {
+    display: grid;
+    gap: 8px;
+}
 
 .shop-item {
-    width: 100%;
-
     display: grid;
-    gap: 5px;
-
-    margin-bottom: 8px;
+    grid-template-columns: 1fr auto;
+    gap: 5px 15px;
     padding: 10px;
-
-    text-align: left;
-
-    background: white;
     border: 1px solid #aaaaaa;
 }
 
-.shop-item:hover:not(:disabled) {
-    background: #f4f4f4;
-}
-
 .shop-name {
-    font-size: 1rem;
     font-weight: bold;
 }
 
+.shop-description,
+.shop-effect {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: #555555;
+}
 
-/* ================================================================
-   STATS
-   ================================================================ */
+.shop-meta {
+    font-size: 0.9rem;
+}
 
-.stats-grid {
-    display: grid;
-
-    grid-template-columns:
-        1fr
-        auto;
-
-    gap: 8px 20px;
-
-    max-width: 500px;
+.shop-buy-button {
+    grid-row: span 2;
+    align-self: center;
+    min-width: 95px;
+    padding: 7px 10px;
 }
 
 
-/* ================================================================
+/* ==================================================================
+   STATS
+   ================================================================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 20px;
+    max-width: 560px;
+}
+
+
+/* ==================================================================
    EVENT LOG
-   ================================================================ */
+   ================================================================== */
 
 .log-panel {
     display: flex;
@@ -317,29 +277,29 @@ button:disabled {
 
 #event-log {
     padding: 10px;
-
     overflow-y: auto;
 }
 
 .log-entry {
-    margin: 0 0 8px 0;
-
+    margin: 0 0 8px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #eeeeee;
     font-size: 0.85rem;
     line-height: 1.4;
+}
 
-    border-bottom: 1px solid #eeeeee;
-
-    padding-bottom: 6px;
+.log-empty {
+    color: #777777;
+    font-size: 0.85rem;
 }
 
 
-/* ================================================================
+/* ==================================================================
    SETTINGS
-   ================================================================ */
+   ================================================================== */
 
 #settings-dialog {
-    width: min(400px, 90vw);
-
+    width: min(420px, 90vw);
     border: 1px solid #777777;
 }
 
@@ -349,15 +309,14 @@ button:disabled {
 }
 
 
-/* ================================================================
-   SMALLER SCREENS
-   ================================================================ */
+/* ==================================================================
+   SMALL SCREENS
+   Start simple: stack the three columns vertically.
+   ================================================================== */
 
 @media (max-width: 900px) {
-
     .game-layout {
         height: auto;
-
         display: block;
     }
 
@@ -367,7 +326,6 @@ button:disabled {
 
     .resources-panel,
     .log-panel {
-        max-height: 350px;
+        max-height: 360px;
     }
-
 }
