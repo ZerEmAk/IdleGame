@@ -10,7 +10,7 @@ import time
 # GAME CONFIGURATION
 # ================================================================
 
-GAME_VERSION = "0.1.0"
+GAME_VERSION = "0.0.1"
 
 SAVE_KEY = "incremental_framework_save_v1"
 
