@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>IdleGameProtoType</title>
+    <title>Incremental Prototype</title>
 
     <link rel="stylesheet" href="style.css">
 
@@ -24,22 +25,556 @@
 
 <body>
 
-    <main class="game">
+    <!-- ============================================================
+         TOP BAR
+         ============================================================ -->
 
-        <h1>IdleGameProtoType</h1>
+    <header class="top-bar">
+
+        <div>
+            <strong>Incremental Prototype</strong>
+            <span id="save-status">Not saved yet</span>
+        </div>
+
+        <div class="top-bar-right">
+            <span id="version">v0.0.0</span>
+
+            <button
+                id="settings-button"
+                type="button"
+            >
+                Settings
+            </button>
+        </div>
+
+    </header>
+
+
+    <!-- ============================================================
+         THREE-COLUMN GAME LAYOUT
+         ============================================================ -->
+
+    <div class="game-layout">
+
+
+        <!-- ========================================================
+             LEFT: RESOURCES
+             ======================================================== -->
+
+        <aside class="panel resources-panel">
+
+            <div class="panel-header">
+                <h2>Resources</h2>
+            </div>
+
+
+            <!-- ENERGY -->
+
+            <div class="resource-row">
+
+                <div
+                    class="resource-fill"
+                    id="energy-bar"
+                ></div>
+
+                <div class="resource-content">
+
+                    <strong>Energy</strong>
+
+                    <span>
+                        <span id="energy-amount">0</span>
+                        /
+                        <span id="energy-capacity">100</span>
+                    </span>
+
+                    <span class="resource-rate">
+                        <span id="energy-rate">0</span>/s
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- MATERIALS -->
+
+            <div class="resource-row">
+
+                <div
+                    class="resource-fill"
+                    id="materials-bar"
+                ></div>
+
+                <div class="resource-content">
+
+                    <strong>Materials</strong>
+
+                    <span>
+                        <span id="materials-amount">0</span>
+                        /
+                        <span id="materials-capacity">100</span>
+                    </span>
+
+                    <span class="resource-rate">
+                        <span id="materials-rate">0</span>/s
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESEARCH -->
+
+            <div class="resource-row">
+
+                <div
+                    class="resource-fill"
+                    id="research-bar"
+                ></div>
+
+                <div class="resource-content">
+
+                    <strong>Research</strong>
+
+                    <span>
+                        <span id="research-amount">0</span>
+                        /
+                        <span id="research-capacity">50</span>
+                    </span>
+
+                    <span class="resource-rate">
+                        <span id="research-rate">0</span>/s
+                    </span>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ========================================================
+             MIDDLE: MAIN GAME
+             ======================================================== -->
+
+        <main class="panel main-panel">
+
+
+            <!-- TAB BUTTONS -->
+
+            <nav class="tabs">
+
+                <button
+                    class="tab-button active"
+                    data-tab="overview"
+                    type="button"
+                >
+                    Overview
+                </button>
+
+                <button
+                    class="tab-button"
+                    data-tab="buildings"
+                    type="button"
+                >
+                    Buildings
+                </button>
+
+                <button
+                    class="tab-button"
+                    data-tab="upgrades"
+                    type="button"
+                >
+                    Upgrades
+                </button>
+
+                <button
+                    class="tab-button"
+                    data-tab="stats"
+                    type="button"
+                >
+                    Stats
+                </button>
+
+            </nav>
+
+
+            <!-- ====================================================
+                 OVERVIEW TAB
+                 ==================================================== -->
+
+            <section
+                class="tab-panel active"
+                data-panel="overview"
+            >
+
+                <h2>Overview</h2>
+
+                <p>
+                    This is the general-purpose starting area.
+                    Replace this with whatever your game's first mechanic
+                    eventually becomes.
+                </p>
+
+                <div class="section-box">
+
+                    <h3>Manual Action</h3>
+
+                    <p>
+                        Gives 1 Energy.
+                    </p>
+
+                    <button
+                        id="manual-action"
+                        type="button"
+                    >
+                        Generate Energy
+                    </button>
+
+                </div>
+
+
+                <div class="section-box">
+
+                    <h3>Current Goal</h3>
+
+                    <p>
+                        Buy a Generator to begin automatic production.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- ====================================================
+                 BUILDINGS TAB
+                 ==================================================== -->
+
+            <section
+                class="tab-panel"
+                data-panel="buildings"
+            >
+
+                <h2>Buildings</h2>
+
+
+                <!-- BULK BUY CONTROLS -->
+
+                <div class="buy-selector">
+
+                    <span>Buy:</span>
+
+                    <button
+                        class="buy-amount active"
+                        data-amount="1"
+                        type="button"
+                    >
+                        1
+                    </button>
+
+                    <button
+                        class="buy-amount"
+                        data-amount="10"
+                        type="button"
+                    >
+                        10
+                    </button>
+
+                    <button
+                        class="buy-amount"
+                        data-amount="max"
+                        type="button"
+                    >
+                        Max
+                    </button>
+
+                </div>
+
+
+                <!-- GENERATOR -->
+
+                <button
+                    class="shop-item building-buy"
+                    data-building="generator"
+                    type="button"
+                >
+
+                    <span class="shop-name">
+                        Generator
+                    </span>
+
+                    <span>
+                        Produces 1 Energy/s
+                    </span>
+
+                    <span>
+                        Owned:
+                        <strong id="generator-owned">0</strong>
+                    </span>
+
+                    <span>
+                        <span id="generator-buy-label">Buy 1</span>
+                        —
+                        <strong id="generator-cost">10</strong>
+                        Energy
+                    </span>
+
+                </button>
+
+
+                <!-- COLLECTOR -->
+
+                <button
+                    class="shop-item building-buy"
+                    data-building="collector"
+                    type="button"
+                >
+
+                    <span class="shop-name">
+                        Collector
+                    </span>
+
+                    <span>
+                        Produces 0.5 Materials/s
+                    </span>
+
+                    <span>
+                        Owned:
+                        <strong id="collector-owned">0</strong>
+                    </span>
+
+                    <span>
+                        <span id="collector-buy-label">Buy 1</span>
+                        —
+                        <strong id="collector-cost">25</strong>
+                        Energy
+                    </span>
+
+                </button>
+
+
+                <!-- LABORATORY -->
+
+                <button
+                    class="shop-item building-buy"
+                    data-building="laboratory"
+                    type="button"
+                >
+
+                    <span class="shop-name">
+                        Laboratory
+                    </span>
+
+                    <span>
+                        Produces 0.1 Research/s
+                    </span>
+
+                    <span>
+                        Owned:
+                        <strong id="laboratory-owned">0</strong>
+                    </span>
+
+                    <span>
+                        <span id="laboratory-buy-label">Buy 1</span>
+                        —
+                        <strong id="laboratory-cost">30</strong>
+                        Materials
+                    </span>
+
+                </button>
+
+            </section>
+
+
+            <!-- ====================================================
+                 UPGRADES TAB
+                 ==================================================== -->
+
+            <section
+                class="tab-panel"
+                data-panel="upgrades"
+            >
+
+                <h2>Upgrades</h2>
+
+                <p>
+                    Upgrades are purchased once and permanently change
+                    the current run.
+                </p>
+
+
+                <button
+                    class="shop-item upgrade-buy"
+                    data-upgrade="generator_efficiency"
+                    id="upgrade-generator_efficiency"
+                    type="button"
+                >
+
+                    <span class="shop-name">
+                        Efficient Generators
+                    </span>
+
+                    <span>
+                        Generators produce twice as much Energy.
+                    </span>
+
+                    <span>
+                        Cost:
+                        <strong id="generator_efficiency-cost">10</strong>
+                        Research
+                    </span>
+
+                    <strong id="generator_efficiency-state">
+                        Available
+                    </strong>
+
+                </button>
+
+
+                <button
+                    class="shop-item upgrade-buy"
+                    data-upgrade="expanded_storage"
+                    id="upgrade-expanded_storage"
+                    type="button"
+                >
+
+                    <span class="shop-name">
+                        Expanded Storage
+                    </span>
+
+                    <span>
+                        Doubles Energy and Materials capacity.
+                    </span>
+
+                    <span>
+                        Cost:
+                        <strong id="expanded_storage-cost">50</strong>
+                        Materials
+                    </span>
+
+                    <strong id="expanded_storage-state">
+                        Available
+                    </strong>
+
+                </button>
+
+            </section>
+
+
+            <!-- ====================================================
+                 STATS TAB
+                 ==================================================== -->
+
+            <section
+                class="tab-panel"
+                data-panel="stats"
+            >
+
+                <h2>Statistics</h2>
+
+                <div class="stats-grid">
+
+                    <span>Play time</span>
+                    <strong id="stat-play-time">0s</strong>
+
+                    <span>Manual actions</span>
+                    <strong id="stat-manual-clicks">0</strong>
+
+                    <span>Total Energy generated</span>
+                    <strong id="stat-energy-generated">0</strong>
+
+                    <span>Total Materials generated</span>
+                    <strong id="stat-materials-generated">0</strong>
+
+                    <span>Total Research generated</span>
+                    <strong id="stat-research-generated">0</strong>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- ========================================================
+             RIGHT: EVENT LOG
+             ======================================================== -->
+
+        <aside class="panel log-panel">
+
+            <div class="panel-header">
+
+                <h2>Event Log</h2>
+
+                <button
+                    id="clear-log"
+                    type="button"
+                >
+                    Clear
+                </button>
+
+            </div>
+
+            <div id="event-log"></div>
+
+        </aside>
+
+    </div>
+
+
+    <!-- ============================================================
+         SETTINGS DIALOG
+         ============================================================ -->
+
+    <dialog id="settings-dialog">
+
+        <h2>Settings</h2>
 
         <p>
-            Iron:
-            <strong id="iron">0</strong>
+            Save data is stored in this browser.
         </p>
 
-        <button id="mine-button">
-            Mine Iron
-        </button>
+        <div class="settings-buttons">
 
-    </main>
+            <button
+                id="save-game"
+                type="button"
+            >
+                Save Now
+            </button>
 
-    <script type="py" src="main.py"></script>
+            <button
+                id="load-game"
+                type="button"
+            >
+                Load Save
+            </button>
+
+            <button
+                id="reset-game"
+                type="button"
+            >
+                Reset Game
+            </button>
+
+            <button
+                id="close-settings"
+                type="button"
+            >
+                Close
+            </button>
+
+        </div>
+
+    </dialog>
+
+
+    <script
+        type="py"
+        src="main.py"
+    ></script>
 
 </body>
 </html>
