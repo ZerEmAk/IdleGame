@@ -24,15 +24,15 @@ GAME_VERSION = "0.1.0"
 SAVE_SCHEMA_VERSION = 1
 
 SAVE_KEY = "idle_framework_save_v1"
-AUTOSAVE_SECONDS = 10.0
-UI_REFRESH_SECONDS = 0.2
+AUTOSAVE_SECONDS = 30.0
+UI_REFRESH_SECONDS = 0.1
 
 # Offline production is intentionally capped so leaving for months does
 # not instantly fill every future system. Change or remove the cap later.
 OFFLINE_PROGRESS_MAX_SECONDS = 8 * 60 * 60
 
 # These become the bulk-buy buttons in the Buildings tab.
-BUY_AMOUNTS = ("1", "10", "max")
+BUY_AMOUNTS = ("1","10", "max")
 
 
 # ====================================================================
@@ -74,6 +74,11 @@ RESOURCE_DEFS = {
         "description": "Example progression resource.",
         "base_capacity": 50.0,
     },
+    "wood": {
+        "name": "Wood",
+        "description": "chop trees",
+        "base_capacity": 100.0,
+    },
 }
 
 
@@ -112,6 +117,16 @@ BUILDING_DEFS = {
         "cost_growth": 1.18,
         "produces": {
             "knowledge": 0.1,
+        },
+    },
+    "lumberyard": {
+        "name": "Lumber Yard",
+        "description": "Produces wood",
+        "cost_resource": "parts",
+        "base_cost": 20.0,
+        "cost_growth": 1.12,
+        "produces": {
+            "wood": 0.2,
         },
     },
 }
@@ -157,6 +172,19 @@ UPGRADE_DEFS = {
             }
         ],
     },
+    "steel axe": {
+        "name": "Steel Axe",
+        "description": "Doubles wood gain",
+        "cost_resource": "parts",
+        "cost": 50.0,
+        "effects": [
+            {
+                "type": "wood_gain_multiplier",
+                "resources": ["wood"],
+                "multiplier": 2.0,
+            }
+        ],
+    },
 }
 
 
@@ -171,4 +199,5 @@ TAB_DEFS = [
     {"key": "buildings", "label": "Buildings"},
     {"key": "upgrades", "label": "Upgrades"},
     {"key": "stats", "label": "Stats"},
+    {"key": "research", "label": "Research"},
 ]
