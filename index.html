@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0b0d0d">
     <title>The First Rite</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://pyscript.net/releases/2026.7.2/core.css">
+    <link rel="stylesheet" href="style.css">
     <script type="module" src="https://pyscript.net/releases/2026.7.2/core.js"></script>
 </head>
 
@@ -45,7 +45,7 @@
 
             <section class="panel help-panel" aria-labelledby="rates-heading">
                 <div class="panel-header"><h2 id="rates-heading">How It Works</h2></div>
-                <p>Hold to channel. Click to dig. Skeletons work automatically until their bindings expire.</p>
+                <p>Hold to channel, click to dig, and use active rituals for bounded bonuses. Research drains Knowledge over time; named Skeletons automate unlocked jobs.</p>
             </section>
         </aside>
 
@@ -68,12 +68,14 @@
                     <h2 id="log-heading">Event Log</h2>
                     <button id="clear-log" class="text-button" type="button">Clear</button>
                 </div>
+                <div id="log-filters" class="log-filters" aria-label="Event log categories"></div>
                 <div id="event-log"></div>
             </section>
         </aside>
     </div>
 
     <div id="game-announcer" class="sr-only" aria-live="polite"></div>
+    <div id="game-tooltip" class="game-tooltip" role="tooltip" aria-hidden="true" hidden></div>
 
     <dialog id="settings-dialog">
         <div class="dialog-heading">
@@ -81,6 +83,13 @@
             <p>Progress is saved locally in this browser.</p>
         </div>
         <div class="settings-buttons">
+            <label class="setting-row">
+                <span>
+                    <strong>Reduce motion</strong>
+                    <small>Disable decorative movement and shorten transitions.</small>
+                </span>
+                <input id="reduced-motion" type="checkbox">
+            </label>
             <button id="save-game" type="button">Save Now</button>
             <button id="load-game" type="button">Load Save</button>
             <button id="reset-game" class="danger-button" type="button">Reset Game</button>
@@ -93,6 +102,49 @@
             <h2>Patch Notes</h2>
             <p>Changes to The First Rite.</p>
         </div>
+
+        <section class="patch-entry">
+            <div class="patch-heading">
+                <strong>v0.4.0 — The Veiled Ledger</strong>
+                <time datetime="2026-08-13">August 13, 2026</time>
+            </div>
+            <ul>
+                <li>Overhauled every room with distinct visual accents and replaceable placeholder art.</li>
+                <li>Rebuilt Overview as a live command desk with objectives, production, and operation status.</li>
+                <li>Turned Research into a compact, fogged discipline tree and added a completed Upgrade archive.</li>
+                <li>Connected the seven assembly hexes, reduced the Soul Gem, and persistently shuffled loose parts.</li>
+                <li>Fixed the drag proxy, reduced hidden-panel work, and removed duplicate sidebar controls.</li>
+            </ul>
+        </section>
+
+        <section class="patch-entry">
+            <div class="patch-heading">
+                <strong>v0.3.1 — The Rune Circle</strong>
+                <time datetime="2026-08-13">August 13, 2026</time>
+            </div>
+            <ul>
+                <li>Rebuilt Skeleton Assembly as a seven-hex ritual lattice.</li>
+                <li>Fixed dragged parts becoming pinned to the viewport corner.</li>
+                <li>Expanded Séance to a 4 × 4 rune circle and six-rune memory sequence.</li>
+                <li>Focused Excavation now freezes and judges the exact visible strike position.</li>
+                <li>Added stronger success, failure, reveal, placement, and timing feedback.</li>
+            </ul>
+        </section>
+
+        <section class="patch-entry">
+            <div class="patch-heading">
+                <strong>v0.3.0 — The Apprentice's Workshop</strong>
+                <time datetime="2026-08-13">August 13, 2026</time>
+            </div>
+            <ul>
+                <li>Added timed, continuously funded research with a planning queue.</li>
+                <li>Added Grave Dust, Ectoplasm, Ritual Ink, Relics, and workshop recipes.</li>
+                <li>Added Focused Excavation and Séance minigames.</li>
+                <li>Added editable skeleton names and three unlockable jobs.</li>
+                <li>Added categorized events, definition-driven tooltips, animations, and richer flavor text.</li>
+                <li>Split content and simulation into reusable framework systems with extension documentation.</li>
+            </ul>
+        </section>
 
         <section class="patch-entry">
             <div class="patch-heading">
@@ -122,6 +174,6 @@
         <button id="close-patch-notes" class="quiet-button" type="button">Close</button>
     </dialog>
 
-    <script type="py" src="main.py" config="pyscript.json"></script>
+    <script type="py" src="main.py?v=0.4.0-final" config="pyscript.json?v=0.4.0-final"></script>
 </body>
 </html>

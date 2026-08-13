@@ -1,10 +1,23 @@
 {
     "files": {
-    "./game/definitions.py": "./game/definitions.py",
-    "./game/content.py": "./game/content.py",
-        "./game/state.py": "./game/state.py",
-        "./game/logic.py": "./game/logic.py",
-        "./game/save.py": "./game/save.py",
-        "./game/ui.py": "./game/ui.py"
+        "./game/definitions.py?v=0.4.0-final": "./game/definitions.py",
+        "./game/content.py?v=0.4.0-final": "./game/content.py",
+        "./game/content_core.py?v=0.4.0-final": "./game/content_core.py",
+        "./game/content_progression.py?v=0.4.0-final": "./game/content_progression.py",
+        "./game/requirements.py?v=0.4.0-final": "./game/requirements.py",
+        "./game/effects.py?v=0.4.0-final": "./game/effects.py",
+        "./game/economy.py?v=0.4.0-final": "./game/economy.py",
+        "./game/workers.py?v=0.4.0-final": "./game/workers.py",
+        "./game/research.py?v=0.4.0-final": "./game/research.py",
+        "./game/activities.py?v=0.4.0-final": "./game/activities.py",
+        "./game/migrations.py?v=0.4.0-final": "./game/migrations.py",
+        "./game/ui_tooltips.py?v=0.4.0-final": "./game/ui_tooltips.py",
+        "./game/ui_components.py?v=0.4.0-final": "./game/ui_components.py",
+        "./game/visuals.py?v=0.4.0-final": "./game/visuals.py",
+        "./game/validation.py?v=0.4.0-final": "./game/validation.py",
+        "./game/state.py?v=0.4.0-final": "./game/state.py",
+        "./game/logic.py?v=0.4.0-final": "./game/logic.py",
+        "./game/save.py?v=0.4.0-final": "./game/save.py",
+        "./game/ui.py?v=0.4.0-final": "./game/ui.py"
     }
 }
