@@ -17,7 +17,7 @@ Generators the player owns belongs in state.py.
 # ====================================================================
 
 # Change this whenever you want the displayed game version to change.
-GAME_VERSION = "0.1.0"
+GAME_VERSION = "0.0.1"
 
 # Change this only when the save-file STRUCTURE becomes incompatible.
 # Normal balance/content changes do not require changing it.
@@ -25,7 +25,7 @@ SAVE_SCHEMA_VERSION = 1
 
 SAVE_KEY = "idle_framework_save_v1"
 AUTOSAVE_SECONDS = 30.0
-UI_REFRESH_SECONDS = 0.2
+UI_REFRESH_SECONDS = 0.016
 
 # Offline production is intentionally capped so leaving for months does
 # not instantly fill every future system. Change or remove the cap later.

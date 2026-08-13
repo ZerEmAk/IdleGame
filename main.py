@@ -141,7 +141,10 @@ async def game_loop():
     while True:
         try:
             # Production uses real elapsed time; sleeping avoids a busy loop.
-            await asyncio.sleep(0.1)
+            # Keep the game tick at least as responsive as the configured UI
+            # refresh. Previously the fixed 0.1 second sleep limited all
+            # counters and bars to ten visible updates per second.
+            await asyncio.sleep(min(0.05, UI_REFRESH_SECONDS))
 
             current_time = time.time()
             delta = max(0.0, current_time - previous_time)

@@ -53,7 +53,9 @@ def format_number(value):
     if abs(value - round(value)) < 0.001:
         return str(int(round(value)))
 
-    return f"{value:.1f}"
+    # Two decimal places let slowly growing resources visibly advance between
+    # whole tenths instead of appearing to pause and then jump.
+    return f"{value:.2f}"
 
 
 
